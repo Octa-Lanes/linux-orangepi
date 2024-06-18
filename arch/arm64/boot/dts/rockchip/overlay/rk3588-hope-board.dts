@@ -125,4 +125,56 @@
             };
         };
     };
+
+    fragment@8 {
+        target-path = "/hdmi0";
+        __overlay__ {
+            status = "okay";
+            force-hpd;  // Add this line to force Hot Plug Detect
+            
+            display-timings {
+                native-mode = <&timing0>;
+
+                timing0: timing0 {
+                    clock-frequency = <148500000>;  // Pixel clock frequency in Hz
+                    hactive = <1920>;               // Horizontal active pixels
+                    vactive = <1080>;               // Vertical active pixels
+                    hfront-porch = <88>;            // Horizontal front porch
+                    hback-porch = <148>;            // Horizontal back porch
+                    hsync-len = <44>;               // Horizontal sync length
+                    vfront-porch = <4>;             // Vertical front porch
+                    vback-porch = <36>;             // Vertical back porch
+                    vsync-len = <5>;                // Vertical sync length
+                };
+            };
+        };
+    };
+
+    fragment@9 {
+        target-path = "/hdmi0_in_vp0";
+        __overlay__ {
+            status = "okay";
+        };
+    };
+
+    fragment@10 {
+        target-path = "/hdmi0_sound";
+        __overlay__ {
+            status = "okay";
+        };
+    };
+
+    fragment@11 {
+        target-path = "/hdptxphy_hdmi0";
+        __overlay__ {
+            status = "okay";
+        };
+    };
+
+    fragment@12 {
+        target-path = "/route_hdmi0";
+        __overlay__ {
+            status = "okay";
+        };
+    };
 };
