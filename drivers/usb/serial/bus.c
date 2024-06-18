@@ -60,6 +60,12 @@ static int usb_serial_device_probe(struct device *dev)
 	}
 
 	minor = port->minor;
+	if (strcmp(driver->driver.name, "option1") == 0) {
+		usb_serial_tty_driver->name = "ttyGSM";
+	} else {
+		usb_serial_tty_driver->name = "ttyUSB";
+	}
+
 	tty_dev = tty_port_register_device(&port->port, usb_serial_tty_driver,
 					   minor, dev);
 	if (IS_ERR(tty_dev)) {
@@ -70,8 +76,10 @@ static int usb_serial_device_probe(struct device *dev)
 	usb_autopm_put_interface(port->serial->interface);
 
 	dev_info(&port->serial->dev->dev,
-		 "%s converter now attached to ttyUSB%d\n",
-		 driver->description, minor);
+		 "%s converter now attached to %s%d\n",
+		 driver->description, 
+		 usb_serial_tty_driver->name,
+		 minor);
 
 	return 0;
 
@@ -111,8 +119,10 @@ static int usb_serial_device_remove(struct device *dev)
 	if (driver->port_remove)
 		retval = driver->port_remove(port);
 
-	dev_info(dev, "%s converter now disconnected from ttyUSB%d\n",
-		 driver->description, minor);
+	dev_info(dev, "%s converter now disconnected from %s%d\n",
+		 driver->description, 
+		 usb_serial_tty_driver->name,
+		 minor);
 
 	if (!autopm_err)
 		usb_autopm_put_interface(port->serial->interface);
